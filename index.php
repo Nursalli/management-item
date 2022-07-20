@@ -1,11 +1,12 @@
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manajemen Barang</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> 
+    <title>Management Item</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
 </head>
@@ -44,22 +45,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>tes</td>
-                                <td>tes</td>
-                                <td>tes</td>
-                                <td>tes</td>
-                                <td>tes</td>
-                                <td>tes</td>
-                                <td class="text-center">
-                                    <a class="btn btn-warning mb-1" href="#" title="Edit Barang">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a class="btn btn-danger mb-1 hapusBarang" href="#" role="button" title="Hapus Barang" data-toggle="modal" data-target="#modalHapus" data-id="#">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <!-- data -->
                         </tbody>
                     </table>
                 </div>
@@ -101,13 +87,13 @@
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 
+    <script src="assets/js/script.js"></script>
+
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();
         });
     </script>
-
-    <script src="assets/js/script.js"></script>
 </body>
 
 </html>
