@@ -1,11 +1,11 @@
-$(document).ready(function () {
-  $.ajax({
-    url: "https://api-item.herokuapp.com/",
+async function getData(apiUrl){
+  await $.ajax({
+    url: apiUrl,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     type: "GET",
-    dataType: "json",
+    dataType: "JSON",
     success: function (data) {
       $("#dataTable tbody").html("");
       for (let x in data) {
@@ -35,5 +35,12 @@ $(document).ready(function () {
         $("#dataTable tbody").append(row);
       }
     },
+    error: function(err) {
+      console.log(err.responseText);
+    }
   });
-});
+
+  $('#dataTable').DataTable();
+}
+
+getData("https://api-item.herokuapp.com/");
