@@ -1,10 +1,22 @@
-const url = "https://api-item.herokuapp.com/";
+const url = "http://localhost:5000/";
+
+function getCookie(cName) {
+  const name = cName + "=";
+  const cDecoded = decodeURIComponent(document.cookie); //to be careful
+  const cArr = cDecoded.split("; ");
+  let res;
+  cArr.forEach((val) => {
+    if (val.indexOf(name) === 0) res = val.substring(name.length);
+  });
+  return res;
+}
 
 async function getData(apiUrl) {
   await $.ajax({
     url: apiUrl,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": getCookie("X-PZN-SESSION"),
     },
     type: "GET",
     dataType: "JSON",
@@ -18,9 +30,21 @@ async function getData(apiUrl) {
                             <img src="https://api-item.herokuapp.com/images/${data[x]["foto_barang"]}" alt="foto_barang" width="100" height="100"> 
                         </td>`);
         cells[2] = $(`<td> ${data[x]["nama_barang"]} </td>`);
-        cells[3] = $(`<td> Rp ${data[x]["harga_beli"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </td>`);
-        cells[4] = $(`<td> Rp ${data[x]["harga_jual"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </td>`);
-        cells[5] = $(`<td> ${data[x]["stok"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
+        cells[3] = $(
+          `<td> Rp ${data[x]["harga_beli"]
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </td>`
+        );
+        cells[4] = $(
+          `<td> Rp ${data[x]["harga_jual"]
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </td>`
+        );
+        cells[5] = $(
+          `<td> ${data[x]["stok"]
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".")} </td>`
+        );
         cells[6] = $(`<td class="text-center">
                             <a class="btn btn-warning mb-1 editBarang" href="#" role="button" title="Edit Barang" data-toggle="modal" data-target="#modalForm" data-id="${data[x]["id"]}">
                                 <i class="fas fa-edit"></i>
@@ -52,6 +76,7 @@ async function deleteData(apiUrl, id) {
     url: apiUrl + id,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": getCookie("X-PZN-SESSION"),
     },
     type: "DELETE",
     dataType: "JSON",
@@ -79,16 +104,29 @@ async function deleteData(apiUrl, id) {
 }
 
 async function createUpdateData(apiUrl, formData, id = "") {
-  const checkFile = formData.get('foto_barang').name;
+  const checkFile = formData.get("foto_barang").name;
 
-  if(checkFile === ''){
-    formData.set('foto_barang', '');
+  if (checkFile === "") {
+    formData.set("foto_barang", "");
+    // let xhr = new XMLHttpRequest();
+    // xhr.setRequestHeader("Authorization", getCookie('X-PZN-SESSION'));
+    // xhr.send(formData);
   }
+
+  // let h = new xhr();
+  // h.setRequestHeader('Authorization', getCookie('X-PZN-SESSION'));
+
+  // const headers = Object.assign({
+    // 'Accept': 'application/json',
+//     'Authorization': getCookie("X-PZN-SESSION"),
+// }, formData.prototype.getHeaders());
+
+// console.log(formData);
 
   let type;
   const command = $("#formModalLabel").text();
 
-  if(command === "Edit Barang"){
+  if (command === "Edit Barang") {
     type = "PUT";
   } else {
     type = "POST";
@@ -99,6 +137,9 @@ async function createUpdateData(apiUrl, formData, id = "") {
     type,
     enctype: "multipart/form-data",
     data: formData,
+    beforeSend: function(xhr) { 
+      xhr.setRequestHeader('Authorization', getCookie("X-PZN-SESSION"));
+    },
     success: function (data) {
       $("#modalForm").modal("toggle");
       swal({
@@ -166,12 +207,15 @@ async function findData(apiUrl, id) {
     url: apiUrl + id,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": getCookie("X-PZN-SESSION"),
     },
     type: "GET",
     dataType: "JSON",
     success: function (data) {
-      $(".custom-file-input").next(".custom-file-label").html(`File Foto Sekarang: ${data.foto_barang}`);
-      $('.custom-file-input').val('');
+      $(".custom-file-input")
+        .next(".custom-file-label")
+        .html(`File Foto Sekarang: ${data.foto_barang}`);
+      $(".custom-file-input").val("");
       $("#nama_barang").val(data.nama_barang);
       $("#harga_beli").val(data.harga_beli);
       $("#harga_jual").val(data.harga_jual);
@@ -203,9 +247,9 @@ $(document).on("click", ".tambahBarang", function () {
 
   $(document).on("submit", "form#data", function (e) {
     e.preventDefault();
-  
+
     let formData = new FormData(this);
-  
+
     createUpdateData(url, formData).then((res) => {
       setTimeout(() => {
         location.reload();
@@ -224,9 +268,9 @@ $(document).on("click", ".editBarang", function () {
 
   $(document).on("submit", "form#data", function (e) {
     e.preventDefault();
-  
+
     let formData = new FormData(this);
-  
+
     createUpdateData(url, formData, id).then((res) => {
       setTimeout(() => {
         location.reload();
@@ -252,5 +296,5 @@ $(document).on("click", ".hapusBarang", function () {
 });
 
 $(document).on("click", "#logout", function () {
-  window.location.href = 'logout.php';
+  window.location.href = "logout.php";
 });
