@@ -1,0 +1,13 @@
+{
+    "name": "muhammad-nursalli/management-item",
+    "description": "JWT Login",
+    "authors": [
+        {
+            "name": "Muhammad Nursalli",
+            "email": "shallimuhammad@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.3"
+    }
+}

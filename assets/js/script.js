@@ -250,3 +250,7 @@ $(document).on("click", ".hapusBarang", function () {
     });
   });
 });
+
+$(document).on("click", "#logout", function () {
+  window.location.href = 'logout.php';
+});
