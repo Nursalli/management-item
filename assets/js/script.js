@@ -18,9 +18,9 @@ async function getData(apiUrl) {
                             <img src="https://api-item.herokuapp.com/images/${data[x]["foto_barang"]}" alt="foto_barang" width="100" height="100"> 
                         </td>`);
         cells[2] = $(`<td> ${data[x]["nama_barang"]} </td>`);
-        cells[3] = $(`<td> ${data[x]["harga_beli"]} </td>`);
-        cells[4] = $(`<td> ${data[x]["harga_jual"]} </td>`);
-        cells[5] = $(`<td> ${data[x]["stok"]} </td>`);
+        cells[3] = $(`<td> Rp ${data[x]["harga_beli"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
+        cells[4] = $(`<td> Rp ${data[x]["harga_jual"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
+        cells[5] = $(`<td> ${data[x]["stok"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
         cells[6] = $(`<td class="text-center">
                             <a class="btn btn-warning mb-1 editBarang" href="#" role="button" title="Edit Barang" data-toggle="modal" data-target="#modalForm" data-id="${data[x]["id"]}">
                                 <i class="fas fa-edit"></i>
@@ -170,7 +170,7 @@ async function findData(apiUrl, id) {
     type: "GET",
     dataType: "JSON",
     success: function (data) {
-      $(".custom-file-input").next(".custom-file-label").html(data.foto_barang);
+      $(".custom-file-input").next(".custom-file-label").html(`File Foto Sekarang: ${data.foto_barang}`);
       $('.custom-file-input').val('');
       $("#nama_barang").val(data.nama_barang);
       $("#harga_beli").val(data.harga_beli);
