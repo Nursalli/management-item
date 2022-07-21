@@ -78,7 +78,82 @@ async function deleteData(apiUrl, id) {
   return true;
 }
 
+async function createData(apiUrl, formData) {
+  await $.ajax({
+    url: apiUrl,
+    type: "POST",
+    enctype: "multipart/form-data",
+    data: formData,
+    success: function (data) {
+      $("#modalForm").modal("toggle");
+      swal({
+        title: "Success",
+        text: `${data.status}!`,
+        icon: "success",
+        button: false,
+        timer: 1500,
+      });
+    },
+    error: function (err) {
+      $("#error").show();
+      $("#error").html("");
+      for (let x = 0; x < err.responseJSON.errors.length; x++) {
+        let un = $("<ul></ul>");
+        let li = [];
+
+        switch(err.responseJSON.errors[x].param){
+          case 'foto_barang':
+            li[0] = $(`<li> Error Foto Barang: ${err.responseJSON.errors[x].msg} </li>`);
+            break;
+          case 'nama_barang':
+            li[0] = $(`<li> Error Nama Barang: ${err.responseJSON.errors[x].msg} </li>`);
+            break;
+          case 'harga_beli':
+              li[0] = $(`<li> Error Harga Beli: ${err.responseJSON.errors[x].msg} </li>`);
+              break;
+          case 'harga_jual':
+              li[0] = $(`<li> Error Harga Jual: ${err.responseJSON.errors[x].msg} </li>`);
+              break;
+          case 'stok':
+              li[0] = $(`<li> Error Stok: ${err.responseJSON.errors[x].msg} </li>`);
+              break;
+          default:
+            break;
+        }
+
+        for (let i in li) {
+          un.append(li[i]);
+        }
+
+        $("#error").append(un);
+      }
+    },
+    cache: false,
+    contentType: false,
+    processData: false,
+  });
+
+  return true;
+}
+
 getData(url);
+
+$(".custom-file-input").on("change", function () {
+  let fileName = $(this).val().split("\\").pop();
+  $(this).next(".custom-file-label").addClass("selected").html(fileName);
+});
+
+$(document).on("submit", "form#data", function (e) {
+  e.preventDefault();
+
+  let formData = new FormData(this);
+
+  createData(url, formData).then(res => {
+    setTimeout(() => {
+        location.reload();
+      }, 2200);
+  });
+});
 
 $(document).on("click", ".hapusBarang", function () {
   const id = $(this).data("id");
@@ -88,13 +163,10 @@ $(document).on("click", ".hapusBarang", function () {
 
   $(document).on("click", `#${nameId}`, function () {
     $("#modalHapus").modal("toggle");
-    const processDelete = deleteData(url, id);
-
-    setTimeout(() => {
-      if(processDelete){
+    deleteData(url, id).then(res => {
+      setTimeout(() => {
         location.reload();
-      }
-    },2000);
-    
+      }, 2000);
+    });
   });
 });

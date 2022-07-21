@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="card-header">
-                <a href="#" class="btn btn-success" title="Tambah Barang">
+                <a href="#" class="btn btn-success tambahBarang" title="Tambah Barang" data-toggle="modal" data-target="#modalForm">
                     <i class="fas fa-plus"></i> Tambah Barang
                 </a>
             </div>
@@ -53,7 +53,55 @@
         </div>
     </div>
 
-    <!-- The Modal -->
+    <!-- The Modal Form -->
+    <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Tambah Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="data" method="POST" enctype="multipart/form-data">
+                        <div class="alert alert-danger" id="error" role="alert" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="foto_barang">Foto Barang:</label>
+                            <div class="custom-file">
+                                <input id="foto_barang" name="foto_barang" type="file" class="custom-file-input">
+                                <label for="foto_barang" class="custom-file-label text-truncate">Pilih file...</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nama_barang">Nama Barang:</label>
+                            <input type="text" class="form-control" id="nama_barang" name="nama_barang">
+                        </div>
+                        <div class="form-group">
+                            <label for="harga_beli">Harga Beli:</label>
+                            <input type="number" class="form-control" id="harga_beli" name="harga_beli">
+                        </div>
+                        <div class="form-group">
+                            <label for="harga_jual">Harga Jual:</label>
+                            <input type="number" class="form-control" id="harga_jual" name="harga_jual">
+                        </div>
+                        <div class="form-group">
+                            <label for="stok">Stok:</label>
+                            <input type="number" class="form-control" id="stok" name="stok">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End The Modal Form -->
+
+    <!-- The Modal Delete -->
     <div class="modal modal-danger fade" id="modalHapus" role="dialog" aria-labelledby="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -65,26 +113,26 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <!-- <form action="#" method="post"> -->
-                        <p class="text-center">
-                            Apakah Anda Yakin ?
-                        <p id="keteranganModal"></p>
-                        </p>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-                        <input type="submit" class="btn btn-danger" name="submit" value="Yes">
-                    </div>
+                    <p class="text-center">
+                        Apakah Anda Yakin ?
+                    <p id="keteranganModal"></p>
+                    </p>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+                    <input type="submit" class="btn btn-danger" name="submit" value="Yes">
+                </div>
                 <!-- </form> -->
             </div>
         </div>
     </div>
-    <!-- End The Modal -->
+    <!-- End The Modal Delete -->
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    
+
     <script src="assets/js/script.js"></script>
 
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
