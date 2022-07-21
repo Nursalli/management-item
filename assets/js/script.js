@@ -27,7 +27,7 @@ async function getData(apiUrl) {
         let cells = [];
         cells[0] = $(`<td> ${+x + 1} </td>`);
         cells[1] = $(`<td class="text-center"> 
-                            <img src="https://api-item.herokuapp.com/images/${data[x]["foto_barang"]}" alt="foto_barang" width="100" height="100"> 
+                            <img src="${url}/images/${data[x]["foto_barang"]}" alt="foto_barang" width="100" height="100"> 
                         </td>`);
         cells[2] = $(`<td> ${data[x]["nama_barang"]} </td>`);
         cells[3] = $(
