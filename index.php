@@ -1,4 +1,3 @@
-<?php header('Access-Control-Allow-Origin: *'); ?>
 <!doctype html>
 <html lang="en">
 
@@ -58,7 +57,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModalLabel">Tambah Barang</h5>
+                    <h5 class="modal-title" id="formModalLabel"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -69,6 +68,7 @@
                         </div>
                         <div class="form-group">
                             <label for="foto_barang">Foto Barang:</label>
+                            <!-- <input id="foto_barang" name="foto_barang" type="file"> -->
                             <div class="custom-file">
                                 <input id="foto_barang" name="foto_barang" type="file" class="custom-file-input">
                                 <label for="foto_barang" class="custom-file-label text-truncate">Pilih file...</label>
@@ -76,19 +76,19 @@
                         </div>
                         <div class="form-group">
                             <label for="nama_barang">Nama Barang:</label>
-                            <input type="text" class="form-control" id="nama_barang" name="nama_barang">
+                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Masukkan Nama Barang...">
                         </div>
                         <div class="form-group">
                             <label for="harga_beli">Harga Beli:</label>
-                            <input type="number" class="form-control" id="harga_beli" name="harga_beli">
+                            <input type="number" class="form-control" id="harga_beli" name="harga_beli" placeholder="Masukkan Harga Beli...">
                         </div>
                         <div class="form-group">
                             <label for="harga_jual">Harga Jual:</label>
-                            <input type="number" class="form-control" id="harga_jual" name="harga_jual">
+                            <input type="number" class="form-control" id="harga_jual" name="harga_jual" placeholder="Masukkan Harga Jual...">
                         </div>
                         <div class="form-group">
                             <label for="stok">Stok:</label>
-                            <input type="number" class="form-control" id="stok" name="stok">
+                            <input type="number" class="form-control" id="stok" name="stok" placeholder="Masukkan Jumlah Stok...">
                         </div>
                 </div>
                 <div class="modal-footer">

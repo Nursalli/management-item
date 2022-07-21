@@ -22,7 +22,7 @@ async function getData(apiUrl) {
         cells[4] = $(`<td> ${data[x]["harga_jual"]} </td>`);
         cells[5] = $(`<td> ${data[x]["stok"]} </td>`);
         cells[6] = $(`<td class="text-center">
-                            <a class="btn btn-warning mb-1" href="#" title="Edit Barang">
+                            <a class="btn btn-warning mb-1 editBarang" href="#" role="button" title="Edit Barang" data-toggle="modal" data-target="#modalForm" data-id="${data[x]["id"]}">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <a class="btn btn-danger mb-1 hapusBarang" href="#" role="button" title="Hapus Barang" data-toggle="modal" data-target="#modalHapus" data-id="${data[x]["id"]}">
@@ -78,10 +78,25 @@ async function deleteData(apiUrl, id) {
   return true;
 }
 
-async function createData(apiUrl, formData) {
+async function createUpdateData(apiUrl, formData, id = "") {
+  const checkFile = formData.get('foto_barang').name;
+
+  if(checkFile === ''){
+    formData.set('foto_barang', '');
+  }
+
+  let type;
+  const command = $("#formModalLabel").text();
+
+  if(command === "Edit Barang"){
+    type = "PUT";
+  } else {
+    type = "POST";
+  }
+
   await $.ajax({
-    url: apiUrl,
-    type: "POST",
+    url: apiUrl + id,
+    type,
     enctype: "multipart/form-data",
     data: formData,
     success: function (data) {
@@ -101,22 +116,32 @@ async function createData(apiUrl, formData) {
         let un = $("<ul></ul>");
         let li = [];
 
-        switch(err.responseJSON.errors[x].param){
-          case 'foto_barang':
-            li[0] = $(`<li> Error Foto Barang: ${err.responseJSON.errors[x].msg} </li>`);
+        switch (err.responseJSON.errors[x].param) {
+          case "foto_barang":
+            li[0] = $(
+              `<li> Error Foto Barang: ${err.responseJSON.errors[x].msg} </li>`
+            );
             break;
-          case 'nama_barang':
-            li[0] = $(`<li> Error Nama Barang: ${err.responseJSON.errors[x].msg} </li>`);
+          case "nama_barang":
+            li[0] = $(
+              `<li> Error Nama Barang: ${err.responseJSON.errors[x].msg} </li>`
+            );
             break;
-          case 'harga_beli':
-              li[0] = $(`<li> Error Harga Beli: ${err.responseJSON.errors[x].msg} </li>`);
-              break;
-          case 'harga_jual':
-              li[0] = $(`<li> Error Harga Jual: ${err.responseJSON.errors[x].msg} </li>`);
-              break;
-          case 'stok':
-              li[0] = $(`<li> Error Stok: ${err.responseJSON.errors[x].msg} </li>`);
-              break;
+          case "harga_beli":
+            li[0] = $(
+              `<li> Error Harga Beli: ${err.responseJSON.errors[x].msg} </li>`
+            );
+            break;
+          case "harga_jual":
+            li[0] = $(
+              `<li> Error Harga Jual: ${err.responseJSON.errors[x].msg} </li>`
+            );
+            break;
+          case "stok":
+            li[0] = $(
+              `<li> Error Stok: ${err.responseJSON.errors[x].msg} </li>`
+            );
+            break;
           default:
             break;
         }
@@ -136,22 +161,77 @@ async function createData(apiUrl, formData) {
   return true;
 }
 
+async function findData(apiUrl, id) {
+  await $.ajax({
+    url: apiUrl + id,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    type: "GET",
+    dataType: "JSON",
+    success: function (data) {
+      $(".custom-file-input").next(".custom-file-label").html(data.foto_barang);
+      $('.custom-file-input').val('');
+      $("#nama_barang").val(data.nama_barang);
+      $("#harga_beli").val(data.harga_beli);
+      $("#harga_jual").val(data.harga_jual);
+      $("#stok").val(data.stok);
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+
+  return true;
+}
+
 getData(url);
 
-$(".custom-file-input").on("change", function () {
+$(".custom-file-input").on("change", function (event) {
   let fileName = $(this).val().split("\\").pop();
   $(this).next(".custom-file-label").addClass("selected").html(fileName);
 });
 
-$(document).on("submit", "form#data", function (e) {
-  e.preventDefault();
+$(document).on("click", ".tambahBarang", function () {
+  $("#formModalLabel").text("Tambah Barang");
+  $("#error").hide();
+  $(".custom-file-input").next(".custom-file-label").html("Pilih file...");
+  $("#nama_barang").val(null);
+  $("#harga_beli").val(null);
+  $("#harga_jual").val(null);
+  $("#stok").val(null);
 
-  let formData = new FormData(this);
-
-  createData(url, formData).then(res => {
-    setTimeout(() => {
+  $(document).on("submit", "form#data", function (e) {
+    e.preventDefault();
+  
+    let formData = new FormData(this);
+  
+    createUpdateData(url, formData).then((res) => {
+      setTimeout(() => {
         location.reload();
-      }, 2200);
+      }, 1300);
+    });
+  });
+});
+
+$(document).on("click", ".editBarang", function () {
+  const id = $(this).data("id");
+
+  $("#formModalLabel").text("Edit Barang");
+  $("#error").hide();
+
+  findData(url, id);
+
+  $(document).on("submit", "form#data", function (e) {
+    e.preventDefault();
+  
+    let formData = new FormData(this);
+  
+    createUpdateData(url, formData, id).then((res) => {
+      setTimeout(() => {
+        location.reload();
+      }, 1300);
+    });
   });
 });
 
@@ -163,10 +243,10 @@ $(document).on("click", ".hapusBarang", function () {
 
   $(document).on("click", `#${nameId}`, function () {
     $("#modalHapus").modal("toggle");
-    deleteData(url, id).then(res => {
+    deleteData(url, id).then((res) => {
       setTimeout(() => {
         location.reload();
-      }, 2000);
+      }, 1300);
     });
   });
 });
