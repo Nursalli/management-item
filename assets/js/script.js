@@ -18,8 +18,8 @@ async function getData(apiUrl) {
                             <img src="https://api-item.herokuapp.com/images/${data[x]["foto_barang"]}" alt="foto_barang" width="100" height="100"> 
                         </td>`);
         cells[2] = $(`<td> ${data[x]["nama_barang"]} </td>`);
-        cells[3] = $(`<td> Rp ${data[x]["harga_beli"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
-        cells[4] = $(`<td> Rp ${data[x]["harga_jual"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
+        cells[3] = $(`<td> Rp ${data[x]["harga_beli"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </td>`);
+        cells[4] = $(`<td> Rp ${data[x]["harga_jual"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </td>`);
         cells[5] = $(`<td> ${data[x]["stok"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} </td>`);
         cells[6] = $(`<td class="text-center">
                             <a class="btn btn-warning mb-1 editBarang" href="#" role="button" title="Edit Barang" data-toggle="modal" data-target="#modalForm" data-id="${data[x]["id"]}">
