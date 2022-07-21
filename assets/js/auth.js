@@ -1,4 +1,4 @@
-const url = "http://localhost:5000/";
+const url = "https://api-item.herokuapp.com/";
 
 async function login(apiUrl, formData) {
   await $.ajax({

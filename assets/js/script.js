@@ -1,4 +1,4 @@
-const url = "http://localhost:5000/";
+const url = "https://api-item.herokuapp.com/";
 
 function getCookie(cName) {
   const name = cName + "=";
@@ -108,20 +108,7 @@ async function createUpdateData(apiUrl, formData, id = "") {
 
   if (checkFile === "") {
     formData.set("foto_barang", "");
-    // let xhr = new XMLHttpRequest();
-    // xhr.setRequestHeader("Authorization", getCookie('X-PZN-SESSION'));
-    // xhr.send(formData);
   }
-
-  // let h = new xhr();
-  // h.setRequestHeader('Authorization', getCookie('X-PZN-SESSION'));
-
-  // const headers = Object.assign({
-    // 'Accept': 'application/json',
-//     'Authorization': getCookie("X-PZN-SESSION"),
-// }, formData.prototype.getHeaders());
-
-// console.log(formData);
 
   let type;
   const command = $("#formModalLabel").text();
