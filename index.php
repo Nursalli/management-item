@@ -62,9 +62,9 @@
                     <h4 class="modal-title text-center" id="judulModal">Hapus Barang</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span data-feather="x"><span>&times;</span></button>
                 </div>
-                <form action="#" method="post">
-                    <!-- Modal body -->
-                    <div class="modal-body">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- <form action="#" method="post"> -->
                         <p class="text-center">
                             Apakah Anda Yakin ?
                         <p id="keteranganModal"></p>
@@ -75,7 +75,7 @@
                         <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
                         <input type="submit" class="btn btn-danger" name="submit" value="Yes">
                     </div>
-                </form>
+                <!-- </form> -->
             </div>
         </div>
     </div>
@@ -83,12 +83,13 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    
     <script src="assets/js/script.js"></script>
 
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-    
+
 </body>
 
 </html>

@@ -1,4 +1,6 @@
-async function getData(apiUrl){
+const url = "https://api-item.herokuapp.com/";
+
+async function getData(apiUrl) {
   await $.ajax({
     url: apiUrl,
     headers: {
@@ -35,12 +37,64 @@ async function getData(apiUrl){
         $("#dataTable tbody").append(row);
       }
     },
-    error: function(err) {
+    error: function (err) {
       console.log(err.responseText);
-    }
+    },
   });
 
-  $('#dataTable').DataTable();
+  $("#dataTable").DataTable();
+
+  return true;
 }
 
-getData("https://api-item.herokuapp.com/");
+async function deleteData(apiUrl, id) {
+  await $.ajax({
+    url: apiUrl + id,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    type: "DELETE",
+    dataType: "JSON",
+    success: function (data) {
+      swal({
+        title: "Success",
+        text: `${data.status}!`,
+        icon: "success",
+        button: false,
+        timer: 1500,
+      });
+    },
+    error: function (err) {
+      swal({
+        title: "Failed",
+        text: `${err.responseJSON.status}!`,
+        icon: "error",
+        button: false,
+        timer: 1500,
+      });
+    },
+  });
+
+  return true;
+}
+
+getData(url);
+
+$(document).on("click", ".hapusBarang", function () {
+  const id = $(this).data("id");
+  const nameId = `hapus${id}`;
+
+  $('input[type="submit"]').attr("id", nameId);
+
+  $(document).on("click", `#${nameId}`, function () {
+    $("#modalHapus").modal("toggle");
+    const processDelete = deleteData(url, id);
+
+    setTimeout(() => {
+      if(processDelete){
+        location.reload();
+      }
+    },2000);
+    
+  });
+});
